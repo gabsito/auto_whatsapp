@@ -10,5 +10,7 @@ FILENAME = "contacts.vcf"
 
 file = open(FILENAME, "r")
 
-print(fn.crearDict(file))
+dic = fn.createDict(file)
+bigDic = fn.order_by_sectors(dic)
+fn.toCSV(bigDic, "test")
 file.close()
