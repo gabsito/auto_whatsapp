@@ -3,7 +3,7 @@
 # Last commit: 29/7/2022
 
 from os.path import exists
-
+import pywhatkit as pw
 
 # Funcion que cuenta los contactos en el archivo.
 def countContacts(file):
@@ -31,7 +31,7 @@ def createDict(file):
 
 
 # Funcion que crea un diccionario ordenado por sectores.
-def order_by_sectors(dic):
+def order_by_sectors(dic:dict):
     bigDic = {"Huancavilca": {}, "Maestro": {}, "Vergeles": {}, "Aurora": {}, "Bastion": {}, "Orquideas": {},
               "Sin Sector": {}, "CDA": {}}
     for contact in dic.keys():
@@ -55,7 +55,7 @@ def order_by_sectors(dic):
 
 
 # Funcion que crea un csv con los datos del diccionario
-def toCSV(dic, filename):
+def toCSV(dic:dict, filename:str):
     if not exists(filename + ".csv"):
         file = open(filename + ".csv", "w")
         file.write("ID,Sector,nombre,telefono\n")
@@ -68,3 +68,16 @@ def toCSV(dic, filename):
         print(filename + ".csv created!")
     else:
         print("file already exist!")
+
+
+# Funcion que envia mensajes a todos los numeros del diccionario
+def sendWsp(dic: dict, sectors: list, img_path: str, msg: str):
+    for sector in dic.keys():
+        if sector in sectors:
+            for number in dic[sector].values():
+                pw.sendwhats_image(number, img_path, msg, 15, True, 3)
+
+
+# Funcion que envia un mensaje ocn imagen a un solo numero
+def sendWsp(number:str, img_path:str, msg:str):
+    pw.sendwhats_image(number, img_path, msg, 15, True, 3)
