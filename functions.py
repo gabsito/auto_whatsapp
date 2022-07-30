@@ -1,9 +1,10 @@
 # Author: Gabriel Castro
-# github: gabsito
+# GitHub: gabsito
 # Last commit: 29/7/2022
 
 from os.path import exists
 import pywhatkit as pw
+
 
 # Funcion que cuenta los contactos en el archivo.
 def countContacts(file):
@@ -31,39 +32,39 @@ def createDict(file):
 
 
 # Funcion que crea un diccionario ordenado por sectores.
-def order_by_sectors(dic:dict):
-    bigDic = {"Huancavilca": {}, "Maestro": {}, "Vergeles": {}, "Aurora": {}, "Bastion": {}, "Orquideas": {},
-              "Sin Sector": {}, "CDA": {}}
+def order_by_sectors(dic: dict):
+    big_dic = {"Huancavilca": {}, "Maestro": {}, "Vergeles": {}, "Aurora": {}, "Bastion": {}, "Orquideas": {},
+               "Sin Sector": {}, "CDA": {}}
     for contact in dic.keys():
         if "(h)" in contact.lower() or "huancavilca" in contact.lower():
-            bigDic["Huancavilca"][contact] = dic[contact]
+            big_dic["Huancavilca"][contact] = dic[contact]
         elif "(v)" in contact.lower() or "vergeles" in contact.lower():
-            bigDic["Vergeles"][contact] = dic[contact]
+            big_dic["Vergeles"][contact] = dic[contact]
         elif "(m)" in contact.lower() or "maestro" in contact.lower():
-            bigDic["Maestro"][contact] = dic[contact]
+            big_dic["Maestro"][contact] = dic[contact]
         elif "(au)" in contact.lower() or "aurora" in contact.lower():
-            bigDic["Aurora"][contact] = dic[contact]
+            big_dic["Aurora"][contact] = dic[contact]
         elif "(bast)" in contact.lower() or "bastion" in contact.lower():
-            bigDic["Bastion"][contact] = dic[contact]
+            big_dic["Bastion"][contact] = dic[contact]
         elif "(or)" in contact.lower() or "orquideas" in contact.lower() or "(o)" in contact.lower():
-            bigDic["Orquideas"][contact] = dic[contact]
+            big_dic["Orquideas"][contact] = dic[contact]
         elif "cda" in contact.lower() or "avt" in contact.lower():
-            bigDic["CDA"][contact] = dic[contact]
+            big_dic["CDA"][contact] = dic[contact]
         else:
-            bigDic["Sin Sector"][contact] = dic[contact]
-    return bigDic
+            big_dic["Sin Sector"][contact] = dic[contact]
+    return big_dic
 
 
 # Funcion que crea un csv con los datos del diccionario
-def toCSV(dic:dict, filename:str):
+def toCSV(dic: dict, filename: str):
     if not exists(filename + ".csv"):
         file = open(filename + ".csv", "w")
         file.write("ID,Sector,nombre,telefono\n")
-        id = 1
+        count = 1
         for sector in dic.keys():
             for contact in dic[sector].keys():
-                file.write(str(id) + "," + sector + "," + contact + "," + dic[sector][contact] + "\n")
-                id+=1
+                file.write(str(count) + "," + sector + "," + contact + "," + dic[sector][contact] + "\n")
+                count += 1
         file.close()
         print(filename + ".csv created!")
     else:
@@ -79,5 +80,5 @@ def sendWsp(dic: dict, sectors: list, img_path: str, msg: str):
 
 
 # Funcion que envia un mensaje ocn imagen a un solo numero
-def sendWsp(number:str, img_path:str, msg:str):
+def sendSoloWsp(number: str, img_path: str, msg: str):
     pw.sendwhats_image(number, img_path, msg, 15, True, 3)
