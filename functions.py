@@ -81,4 +81,8 @@ def sendWsp(dic: dict, sectors: list, img_path: str, msg: str):
 
 # Funcion que envia un mensaje ocn imagen a un solo numero
 def sendSoloWsp(number: str, img_path: str, msg: str):
-    pw.sendwhats_image(number, img_path, msg, 15, True, 3)
+    pw.sendwhatmsg_instantly(number, msg, 5, True, 5)
+    pw.sendwhats_image(number, img_path, "", 7, True, 5)
+
+#TODO
+# def removeRepeated():
