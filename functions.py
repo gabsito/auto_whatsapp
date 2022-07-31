@@ -64,7 +64,6 @@ def toCSV(dic: dict, filename: str):
         file.write("ID,Sector,nombre,telefono\n")
         count = 1
         for sector in dic.keys():
-            print(sector)
             for contact in dic[sector].keys():
                 file.write(str(count) + "," + sector + "," + contact + "," + dic[sector][contact] + "\n")
                 count += 1
@@ -76,8 +75,12 @@ def toCSV(dic: dict, filename: str):
 
 # Funcion que envia mensajes a todos los numeros del diccionario
 def sendWsp(dic: dict, sectors: list, img_path: str, msg: str):
-    nums = []
+    nums = ["+593983612706", "+593980241824", "+593995022477", "+593997720609", "+593967165746", "+593980627646",
+            "+593985410150", "+593996532786", "+593983589798", "+593960142210", "+593994964314", "+593939668526",
+            "+593995531126", "+593982437699", "+593425052661", "+593979872932", "+593978637906", "+593985999311",
+            "+593995982714", "+593958784797", "+593982204660"]
     for sector in dic.keys():
+        print(sector)
         if sector in sectors:
             for number in dic[sector].values():
                 if number not in nums and len(number) == 13:
