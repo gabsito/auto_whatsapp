@@ -21,7 +21,7 @@ def createDict(file):
     name = ""
     num = ""
     for line in file:
-        if "FN:" in line:
+        if "FN:" in line and "CHARSET=UTF-8" not in line:
             name = line[line.find(":") + 1:].replace("# ", "").replace("\n", "").replace(" ", "")
         elif "CELL:" in line:
             num = line[line.find(":") + 1:].replace("\n", "")
@@ -33,13 +33,15 @@ def createDict(file):
 
 # Funcion que crea un diccionario ordenado por sectores.
 def order_by_sectors(dic: dict):
-    big_dic = {"Huancavilca": {}, "Maestro": {}, "Vergeles": {}, "Aurora": {}, "Bastion": {}, "Orquideas": {},
+    big_dic = {"Huancavilca": {}, "Maestro": {}, "Vergeles": {}, "Geranios": {}, "Aurora": {}, "Bastion": {}, "Orquideas": {},
                "Sin Sector": {}, "CDA": {}}
     for contact in dic.keys():
         if "(h)" in contact.lower() or "huancavilca" in contact.lower():
             big_dic["Huancavilca"][contact] = dic[contact]
         elif "(v)" in contact.lower() or "vergeles" in contact.lower():
             big_dic["Vergeles"][contact] = dic[contact]
+        elif "(g)" in contact.lower() or "geranios" in contact.lower():
+            big_dic["Geranios"][contact] = dic[contact]
         elif "(m)" in contact.lower() or "maestro" in contact.lower():
             big_dic["Maestro"][contact] = dic[contact]
         elif "(au)" in contact.lower() or "aurora" in contact.lower():
@@ -62,6 +64,7 @@ def toCSV(dic: dict, filename: str):
         file.write("ID,Sector,nombre,telefono\n")
         count = 1
         for sector in dic.keys():
+            print(sector)
             for contact in dic[sector].keys():
                 file.write(str(count) + "," + sector + "," + contact + "," + dic[sector][contact] + "\n")
                 count += 1
@@ -77,8 +80,9 @@ def sendWsp(dic: dict, sectors: list, img_path: str, msg: str):
     for sector in dic.keys():
         if sector in sectors:
             for number in dic[sector].values():
-                if number not in nums:
+                if number not in nums and len(number) == 13:
                     nums.append(number)
+                    print(number)
                     pw.sendwhats_image(number, img_path, msg, 7, True, 5)
 
 
